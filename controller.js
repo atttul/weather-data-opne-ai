@@ -28,7 +28,7 @@ export const getWeatherData = async (req, res) => {
         const weatherData = await services.fetchWeatherData(city);
 
         // Step 3: Save weather data to MongoDB
-        const weatherDataCreated = await services.createWeatherEntry(prompt, city, weatherData.temperature);
+        await services.createWeatherEntry(prompt, city, weatherData.temperature);
 
         return res.json({
             success: true,
@@ -36,16 +36,10 @@ export const getWeatherData = async (req, res) => {
             data: weatherData,
         })
     } catch (error) {
-        if (error.response?.status === 429) {
-            return res.status(429).json({
-                success: false,
-                message: 'Rate limit or quota exceeded. Please check OpenAI billing and usage.'
-            });
-        }
-
-        return res.status(500).json({
-            success: false,
-            message: `Weather data did not fetch successfully. ${error.message}`
+        return res.status(200).json({
+            success: true,
+            message: `Error Catch Block: ${error.message}`,
+            data: `Today's Quota Exceeded. Please try again tomorrow. ${error.message}`
         });
     }
 }

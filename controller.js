@@ -6,9 +6,10 @@ export const getWeatherData = async (req, res) => {
     try {
         const { prompt } = req.body;
         if (!prompt) {
-            return res.status(400).json({
+            return res.status(200).json({
                 success: false,
-                message: 'Prompt is required'
+                message: 'Prompt is required',
+                data: `Prompt is required. Please enter a valid input.`
             });
         }
 

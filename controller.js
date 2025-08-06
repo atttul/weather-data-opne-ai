@@ -17,8 +17,8 @@ export const getWeatherData = async (req, res) => {
 
         if (city === "NO_CITY_FOUND") {
             const geminiResponse = await services.getGeminiResponse(prompt);
-            return res.status(400).json({
-                success: false,
+            return res.status(200).json({
+                success: true,
                 message: 'Gemini Response Generate',
                 data: geminiResponse
             });

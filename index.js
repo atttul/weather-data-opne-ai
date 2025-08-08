@@ -6,20 +6,21 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
+const port = process.env.PORT || 5000;
+await mongoDb()
 
-// Connect to MongoDB (ensure this runs before requests)
-await mongoDb();
+app.use(cors({ origin: '*', allowedHeaders: ['Content-Type', 'Authorization'] }))
 
-// Middleware
-app.use(cors({ origin: '*', allowedHeaders: ['Content-Type', 'Authorization'] }));
-app.use(express.json());
+app.use(express.json())
 
-// Routes
 app.use('/api', weatherRouter);
 app.get('/', (req, res) => {
     res.send('Welcome to the Weather Data API');
 });
 
-// ❌ REMOVE app.listen()
-// ✅ Instead export the app for Vercel
-export default app;
+
+app.listen(port, () => {
+    console.log(`server is running on port = ${port}`);
+})
+
+
